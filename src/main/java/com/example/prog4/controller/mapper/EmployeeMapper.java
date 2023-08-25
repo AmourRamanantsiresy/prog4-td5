@@ -5,6 +5,7 @@ import com.example.prog4.model.exception.BadRequestException;
 import com.example.prog4.repository.PositionRepository;
 import com.example.prog4.repository.entity.Phone;
 import com.example.prog4.repository.entity.Position;
+import com.example.prog4.service.utils.AgeCalculator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -83,6 +84,7 @@ public class EmployeeMapper {
                 .registrationNumber(employee.getRegistrationNumber())
                 .childrenNumber(employee.getChildrenNumber())
                 .monthlySalary(employee.getMonthlySalary())
+                .age(AgeCalculator.fromBirth(employee.getBirthDate()))
                 // enums
                 .csp(employee.getCsp())
                 .sex(employee.getSex())

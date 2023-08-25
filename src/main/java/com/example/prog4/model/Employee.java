@@ -36,6 +36,7 @@ public class Employee implements Serializable {
     private String professionalEmail;
     private String registrationNumber;
     private Double monthlySalary;
+    private int age;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
