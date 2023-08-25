@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 public class PdfUtils {
     private static String parseThymeleafTemplate(Employee employee) {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setPrefix("/templates/pdf/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
 
