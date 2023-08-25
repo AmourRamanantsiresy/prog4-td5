@@ -1,1 +1,1 @@
-ALTER TABLE IF EXISTS "employee" ADD COLUMN monthly_salary numeric(100000, 10);
+ALTER TABLE IF EXISTS "employee" ADD COLUMN monthly_salary DECIMAL;

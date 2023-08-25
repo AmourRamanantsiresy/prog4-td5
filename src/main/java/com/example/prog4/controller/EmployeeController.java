@@ -4,8 +4,9 @@ import com.example.prog4.controller.mapper.EmployeeMapper;
 import com.example.prog4.controller.validator.EmployeeValidator;
 import com.example.prog4.model.Employee;
 import com.example.prog4.model.EmployeeFilter;
-import com.example.prog4.service.CSVUtils;
 import com.example.prog4.service.EmployeeService;
+import com.example.prog4.service.utils.CSVUtils;
+import com.example.prog4.service.utils.PdfUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -13,9 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -55,5 +56,16 @@ public class EmployeeController {
         com.example.prog4.repository.entity.Employee domain = employeeMapper.toDomain(employee);
         employeeService.saveOne(domain);
         return "redirect:/employee/list";
+    }
+
+    @GetMapping("/{eId}/formPdf")
+    public ResponseEntity<byte[]> getFormPdf(@PathVariable String eId){
+        Employee employee = employeeMapper.toView(employeeService.getOne(eId));
+        byte[] bytes = PdfUtils.generatePdfFromHtml(employee);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "Employee-" + employee.getId() + "-form.pdf");
+        headers.setContentLength(bytes.length);
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 }
